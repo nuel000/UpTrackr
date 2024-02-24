@@ -9,8 +9,11 @@ smtp_port = 587
 smtp_username = 'jasperobed@gmail.com'
 smtp_password = os.environ.get('SMTP_PASSWORD_ENV_VARIABLE_NAME', '')
 
+# Custom "From" address
+custom_address = 'Uptrackr.com <noreply@uptrackr.com>'
+
 # Email configuration
-sender = 'jasperobed@gmail.com'
+sender = custom_address
 recipient = 'momohemmanuel370@gmail.com'
 subject = 'New Job Notif'
 body = "Hello Senior Dev, 'sent_email.py' file has been created successfully!"
