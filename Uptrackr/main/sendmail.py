@@ -7,7 +7,7 @@ def sendmail(recipient,body):
     smtp_server = 'smtp.gmail.com'
     smtp_port = 587
     smtp_username = 'thedatadude000@gmail.com'
-    smtp_password = 'nhwq bnit yzgi eanz'
+    smtp_password = 'XXX XXX XXX'
 
     # Custom "From" address
     custom_address = 'Uptrackr.com <noreply@uptrackr.com>'
