@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import UserInputForm
 from concurrent.futures import ThreadPoolExecutor
 import subprocess
@@ -20,4 +20,3 @@ def input_form(request):
     else:
         form = UserInputForm()
     return render(request, 'input_form.html', {'form': form})
-

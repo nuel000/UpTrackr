@@ -7,7 +7,7 @@ import xml.etree.ElementTree as ET
 import requests
 import sys
 from send_mail import send_mail
-import markdown
+#import markdown
 
 
 def format_description(text):
