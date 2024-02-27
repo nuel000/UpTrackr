@@ -36,3 +36,4 @@ def sendmail(recipient,body):
         server.sendmail(sender, recipient, message.as_string())
 
     print('Email sent successfully!')
+sendmail('momohemmanuel370@gmail.com', 'Test mail')

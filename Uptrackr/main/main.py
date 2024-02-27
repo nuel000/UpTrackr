@@ -6,7 +6,8 @@ import time
 import xml.etree.ElementTree as ET
 import requests
 import sys
-from sendmail import sendmail
+from send_mail import send_mail
+import markdown
 
 
 def format_description(text):
@@ -103,14 +104,18 @@ def parse_xml(xml_data):
     return jobs
 
 
-# xml_data = fetch_xml_data() 
-# jobs = parse_xml(xml_data)
-# print(jobs[0])
-
-
-
 
 prev_job = {}  # Initialize outside the function
+
+def get_budget(job):
+    if 'budget' in job:
+        return job['budget']
+    elif 'rate' in job:
+        return job['rate']
+    elif 'non' in job:
+        return job['non']
+    else:
+        return "Not specified"
 
 def job(email, rss_url):
     global processed_job_ids  # Access the global variable
@@ -121,33 +126,22 @@ def job(email, rss_url):
         jobs = parse_xml(xml_data)
         new_job = jobs[0] 
         if new_job != prev_job:
-            try:
-                budget = {new_job['budget']}
-            except:
-                budget = {new_job['rate']}
-            finally:
-                budget = {new_job['non']}
-            
-            
             body = f"""
             🚨 New Job Available 🚨
-            
-            Title : {new_job['title']}
-            
-            Description : {format_description(new_job['description'])}
-            
-            Posted On: {new_job['posted_on']}
-            
-            Category: {new_job['category']}
-            
-            Budget : {budget}
 
-            Client Country: {new_job['country']}
-            
-            Application Link : {new_job['link']}
-            
+            <b>Title</b>: {new_job['title']}<br>
+            <b>Description</b>: {format_description(new_job['description'])}<br>
+            <b>Posted On</b>: {new_job['posted_on']}<br>
+            <b>Category</b>: {new_job['category']}<br>
+            <b>Budget</b>: {get_budget(new_job)}<br>
+            <b>Client Country</b>: {new_job['country']}<br>
+            <b>APPLY HERE</b>: <a href="{new_job['link']}">Link to Apply</a><br>
             """
-            sendmail(email,body)
+
+            # Remove leading whitespace from each line
+            body = '\n'.join(line.strip() for line in body.split('\n'))
+                    
+            send_mail(email,body)
             prev_job = new_job
         else:
             print('No new job')
