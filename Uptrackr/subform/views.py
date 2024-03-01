@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import UserInputForm
 from concurrent.futures import ThreadPoolExecutor
 import subprocess
+#from django.contrib.auth.decorators import login_required
 
 
 def run_main_script(email, rss_url):
@@ -9,6 +10,7 @@ def run_main_script(email, rss_url):
         subprocess.run(["python", "main/main.py", email, rss_url], check=True)
     except subprocess.CalledProcessError as e:
         print("Error running main.py:", e)
+
 
 def input_form(request):
     if request.method == 'POST':
