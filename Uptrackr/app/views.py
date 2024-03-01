@@ -52,9 +52,7 @@ def sign_up(request):
     return render(request, 'signup.html', {'form': form})
 '''
 
-
 # Registration endpoint, this should register a user and save their details to the database
-@api_view(['POST'])
 def sign_up(request):
     if request.method == 'POST':
         form = UserSignupForm(request.POST)
@@ -69,21 +67,12 @@ def sign_up(request):
             user = User.objects.create_user(username=username, email=email, password=password)
             user.full_name = full_name
             user.save()
-
-            return redirect('login')
-
-            # Log in the user
-            #user = authenticate(request, username=username, password=password)
-            #if user:
-                #login(request, user)
-                # Redirect to the dashboard or another page upon successful signup
-                #return redirect('login')
+        print('Redirected successfully')
+        return redirect('login')
 
     else:
         form = UserSignupForm()
-
     return render(request, 'signup.html', {'form': form})
-
 
 
 class UserListAPIView(generics.ListAPIView):
@@ -121,7 +110,6 @@ def log_in(request):
                 form.add_error(None, 'Invalid login credentials')
     else:
         form = UserLoginForm()
-
     return render(request, 'login.html', {'form': form})
 
 
