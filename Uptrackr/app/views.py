@@ -1,6 +1,7 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
@@ -15,8 +16,8 @@ from .serializers import LoginSerializer
 from .forms import UserInputForm, UserLoginForm, UserSignupForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User  # Import the User model (testing...
-#... without creating an actual user)
+from django.contrib.auth.models import User  
+# Import the User model (testing...# #...without creating an actual user)
 
 from concurrent.futures import ThreadPoolExecutor
 import subprocess
@@ -39,50 +40,48 @@ def input_form(request):
         form = UserInputForm()
     return render(request, 'dashboard.html', {'form': form})
 
-'''
 def sign_up(request):
     if request.method == 'POST':
         serializer = CustomUserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            # Redirect to the login page after successful registration
+            return redirect('login')  # Assuming the URL name for the login page is 'login'
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     else:
         form = UserSignupForm()
     return render(request, 'signup.html', {'form': form})
-'''
-
 
 # Registration endpoint, this should register a user and save their details to the database
-@api_view(['POST'])
-def sign_up(request):
-    if request.method == 'POST':
-        form = UserSignupForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            email = form.cleaned_data['email']
-            full_name = form.cleaned_data['full_name']
-            country = form.cleaned_data['country']
-            password = form.cleaned_data['password']
+# @api_view(['POST'])
+# def sign_up(request):
+#     if request.method == 'POST':
+#         form = UserSignupForm(request.POST)
+#         if form.is_valid():
+#             username = form.cleaned_data['username']
+#             email = form.cleaned_data['email']
+#             full_name = form.cleaned_data['full_name']
+#             country = form.cleaned_data['country']
+#             password = form.cleaned_data['password']
 
-            # Create a new user
-            user = User.objects.create_user(username=username, email=email, password=password)
-            user.full_name = full_name
-            user.save()
+#             # Create a new user
+#             user = User.objects.create_user(username=username, email=email, password=password)
+#             user.full_name = full_name
+#             user.save()
 
-            return redirect('login')
+#             return redirect('login')
 
-            # Log in the user
-            #user = authenticate(request, username=username, password=password)
-            #if user:
-                #login(request, user)
-                # Redirect to the dashboard or another page upon successful signup
-                #return redirect('login')
+#             # Log in the user
+#             #user = authenticate(request, username=username, password=password)
+#             #if user:
+#                 #login(request, user)
+#                 # Redirect to the dashboard or another page upon successful signup
+#                 #return redirect('login')
 
-    else:
-        form = UserSignupForm()
+#     else:
+#         form = UserSignupForm()
 
-    return render(request, 'signup.html', {'form': form})
+#     return render(request, 'signup.html', {'form': form})
 
 
 
