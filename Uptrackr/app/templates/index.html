@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Home Page - Uptrackr
+{% endblock %}
+
+{% block content %}
+    <div class="intro-section" style="text-align: center; font-size: 50px; color: #1DCD8D; font-weight: bold; background-color: white; padding: 50px 0; position: relative;">
+        Stay Ahead of the Curve and<br>
+        Never Miss an Opportunity on<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Upwork!
+    </div>
+
+    <div class="about-section section" style="background-color: #1a2529; color: white; text-align: center; font-size: 24px; padding: 50px 0; position: relative;">
+        Uptrackr is a remarkable tool that enables you to receive Upwork job notifications <br>
+        directly from your job feed to your mail the moment clients post them. <br>
+        By delivering instant alerts, this tool ensures you stay ahead of 99.9% of freelancers, <br>
+        allowing you to be among the first applicants to submit proposals.
+    </div>
+
+    <div id="how-it-works-section" class="how-it-works-section section" style="background-color: #1a2529; color: white; text-align: center; font-size: 24px; padding: 50px 0; position: relative;">
+        <h2 style="color: #1DCD8D; text-align: center;">How it works</h2>
+        <div style="width: 100%; text-align: center;">
+            <div style="display: inline-block; text-align: left; padding: 10px; border: 1px solid #ccc; border-radius: 10px;">
+                <ol style="list-style-type: none; padding: 0;">
+                    <li style="margin-bottom: 10px;">Step 1: Set up your job feed based on your preference</li>
+                    <li style="margin-bottom: 10px;">Step 2: Copy your Upwork RSS URL</li>
+                    <li>Step 3: Paste and Start receiving alerts instantly</li>
+                </ol>
+            </div>
+        </div>
+        <br>
+        <h3 style="text-align: center; color: white;">
+            Watch a simple explainer video below
+        </h3>
+        <video controls width="600" height="300" style="display: block; margin: 0 auto;">
+            <source src="your-video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    
+
+    <div class="contact-us-section section" style="background-color: #050505;">
+        <h2 style="color: white;">Contact Us</h2>
+        <div class="section-content" style="color: white; text-align: center; font-size: 24px;">
+            <p><img src="{% static 'mail_icon.png' %}" alt="Email Icon" style="vertical-align: middle;">&nbsp;&nbsp;EMAIL</p>
+            <p>mail@mail.com</p>
+            <p><img src="{% static 'facebook_icon.png' %}" alt="Facebook Icon" style="vertical-align: middle;">&nbsp;&nbsp;<img src="{% static 'twitter_icon.png' %}" alt="Twitter Icon" style="vertical-align: middle;">&nbsp;&nbsp;<img src="{% static 'instagram_icon.png' %}" alt="Instagram Icon" style="vertical-align: middle;">&nbsp;&nbsp;SOCIAL</p>
+        </div>
+    </div>
+
+    <style>
+        .section {
+            border: 1px solid #ccc; /* Fine line border */
+            border-radius: 5px; /* Smooth edges */
+            padding: 20px; /* Add padding */
+            margin-bottom: 0.0px; /* Add space between sections */
+            background-color: white; /* Section background color */
+        }
+        .section:last-child {
+            margin-bottom: 0; /* Remove margin bottom for the last section */
+        }
+        .section h2 {
+            color: #1DCD8D; /* Heading color */
+            text-align: center; /* Center align headings */
+        }
+    </style>
+{% endblock %}
