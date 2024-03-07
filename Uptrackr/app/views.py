@@ -1,6 +1,7 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
@@ -39,22 +40,23 @@ def input_form(request):
             email = form.cleaned_data['email']
             rss_url = form.cleaned_data['rss_url']   
             run_main_script(email, rss_url)
+            return redirect('success')
     else:
         form = UserInputForm()
-    return render(request, 'dashboard.html', {'form': form})
+    return render(request, 'alert.html', {'form': form})
 
-'''
-def sign_up(request):
-    if request.method == 'POST':
-        serializer = CustomUserSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        form = UserSignupForm()
-    return render(request, 'signup.html', {'form': form})
-'''
+# def sign_up(request):
+#     if request.method == 'POST':
+#         serializer = CustomUserSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             # Redirect to the login page after successful registration
+#             return redirect('login')  # Assuming the URL name for the login page is 'login'
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#     else:
+#         form = UserSignupForm()
+#     return render(request, 'signup.html', {'form': form})
+
 
 # Registration endpoint, this should register a user and save their details to the database
 def sign_up(request):
@@ -121,7 +123,6 @@ def log_out(request):
     logout(request)
     return redirect('login')
 
-
 @login_required
 def dashboard(request):
     return render(request, 'dashboard.html')
@@ -174,3 +175,28 @@ def reset_password(request):
         form = ResetAccountForm()
 
     return render(request, 'reset_password.html', {'form': form})
+
+
+#-----------------------------Testing ----------------------------------------------------------------------#
+
+def base_view(request):
+    return render(request, 'base.html')
+
+def base_2_view(request):
+    return render(request, 'base_html_2.html')
+
+def reset_password(request):
+    return render(request, 'reset_password.html')
+
+def home_page(request):
+    return render(request, 'index.html')
+
+def success_page(request):
+    return render(request, 'success.html')
+
+def pricing_page(request):
+    return render(request, 'pricing.html')
+
+
+
+

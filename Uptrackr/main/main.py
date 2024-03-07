@@ -144,7 +144,7 @@ def job(email, rss_url):
             send_mail(email,body)
             prev_job = new_job
         else:
-            print('No new job')
+            pass
     else:
         print("Failed to fetch XML data")
 

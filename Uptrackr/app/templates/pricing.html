@@ -1,0 +1,67 @@
+{% extends 'base_html_2.html' %}
+{% load static %}
+{% block title %}
+    Pricing Plans
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="section">
+        <h2>Pricing Plans</h2>
+
+        <div class="plan">
+            <h3>Free Plan</h3>
+            <p>This plan allows a 7 days free trial</p>
+            <a href="#" class="start-now-button">Start Now</a>
+        </div>
+
+        <div class="plan">
+            <h3>Monthly Plan</h3>
+            <p>This plan allows you to receive Upwork job alerts for 30 days from subscription date</p>
+            <p>$5/month</p>
+            <a href="#" class="subscribe-button">Subscribe Now</a>
+        </div>
+
+        <div class="plan">
+            <h3>Yearly Plan</h3>
+            <p>This plan allows you to receive Upwork job alerts for 365 days from subscription date</p>
+            <p>$48/year (20% discount)</p>
+            <a href="#" class="subscribe-button">Subscribe Now</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .plan {
+        margin-bottom: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .plan h3 {
+        font-size: 24px;
+        color: #1DCD8D;
+    }
+
+    .plan p {
+        margin-bottom: 10px;
+    }
+
+    .start-now-button,
+    .subscribe-button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #1DCD8D;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+    .start-now-button:hover,
+    .subscribe-button:hover {
+        background-color: #17a17b;
+    }
+</style>
+{% endblock %}
