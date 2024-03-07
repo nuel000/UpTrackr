@@ -92,6 +92,30 @@
               </div>
  
         </form>
+
+         <!-- Logout Button -->
+         <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <div class="d-flex justify-content-center mt-3 login_container">
+                <button class="btn login_btn" type="submit">Logout</button>
+            </div>
+        </form>
+
+        <!-- Update Account Button-->
+        <form method="post" action="{% url 'update_account' %}">
+            {% csrf_token %}
+            <div class="d-flex justify-content-center mt-3 login_container">
+                <button class="btn login_btn" type="submit">Update</button>
+            </div>
+        </form>
+
+        <!-- Reset Password Button-->
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <div class="d-flex justify-content-center mt-3 login_container">
+                <button class="btn login_btn" type="submit">Reset</button>
+            </div>
+        </form>
     </div>
 
 </body>
