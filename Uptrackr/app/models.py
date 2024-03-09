@@ -11,6 +11,14 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+# Additionals 
+    #def create_superuser(self, username, email, full_name, password=None, country=None):
+       # user = self.create_user(username, email, full_name, password, country)
+      #  user.is_staff = True
+      #  user.is_superuser = True
+      #  user.save(using=self._db)
+       # return user
+
 class CustomUser(AbstractBaseUser):
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(max_length=254, unique=True)

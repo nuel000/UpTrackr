@@ -10,7 +10,7 @@
         <div class="section">
             <form method="post" action="{% url 'login' %}">
                 {% csrf_token %}
-                <label for="user"> Username :</label><br>
+                <label for="username"> Username :</label><br>
                 <input type="username" id="username" placeholder="Username" name="username"><br><br>
 
                 <label for="password">Password:</label><br>

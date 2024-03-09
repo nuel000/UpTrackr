@@ -73,8 +73,12 @@ def sign_up(request):
             user = User.objects.create_user(username=username, email=email, password=password)
             user.full_name = full_name
             user.save()
+            #user = CustomUser.objects.create_superuser(username, email, full_name, password, country)
             print('Redirected successfully')
             return redirect('login')
+        else:
+            print('Unsuccessful')
+            print(form.errors)
 
     else:
         form = UserSignupForm()
