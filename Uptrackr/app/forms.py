@@ -14,7 +14,8 @@ class UserSignupForm(forms.Form):
     country = forms.CharField(label='Country', max_length=50)
 
 class UserLoginForm(forms.Form):
-    username = forms.CharField(label='Username')
+    username = forms.CharField(label='Username', max_length=100, required=True)
+    #email = forms.EmailField(label='Email Address', max_length=100, required=True)
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
 
 
