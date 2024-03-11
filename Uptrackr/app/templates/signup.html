@@ -1,4 +1,4 @@
-{% extends 'base_html_2.html' %}
+{% extends 'base.html' %}
 {% load static %}
 {% block title %}
     Sign Up
@@ -8,7 +8,7 @@
 
     <div class="container">
         <div class="section">
-            <form method="post">
+            <form method="post" action="{% url 'signup' %}">
                 {% csrf_token %}
                 <div class="intro-text">
                     <p>Welcome to Uptrackr – Where Opportunity Knocks, and You're Always First in Line! <br>
@@ -16,16 +16,16 @@
                     </p>
                 </div>
                 <label for="fullname">Full Name:</label><br>
-                <input type="text" id="fullname" name="fullname"><br><br>
+                <input type="text" id="full_name" name="full_name"><br><br>
+
+                <label for="username">Username:</label><br>
+                <input type="text" id="username" name="username"><br><br>
 
                 <label for="email">Email Address:</label><br>
                 <input type="email" id="email" name="email"><br><br>
 
                 <label for="country">Country:</label><br>
                 <input type="text" id="country" name="country"><br><br>
-
-                <label for="username">Username:</label><br>
-                <input type="text" id="username" name="username"><br><br>
 
                 <label for="password">Password:</label><br>
                 <input type="password" id="password" name="password"><br><br>

@@ -73,8 +73,12 @@ def sign_up(request):
             user = User.objects.create_user(username=username, email=email, password=password)
             user.full_name = full_name
             user.save()
-        print('Redirected successfully')
-        return redirect('login')
+            #user = CustomUser.objects.create_superuser(username, email, full_name, password, country)
+            print('Redirected successfully')
+            return redirect('login')
+        else:
+            print('Unsuccessful')
+            print(form.errors)
 
     else:
         form = UserSignupForm()
@@ -92,40 +96,35 @@ class UserListAPIView(generics.ListAPIView):
 def log_in(request):
     if request.method == 'POST':
         form = UserLoginForm(request.POST)
+        print('Inside first form')
         if form.is_valid():
+            print('Form is Valid')
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-
-            # For testing purposes, create a temporary user
-            # I'll remove before production
-            temp_user, created = User.objects.get_or_create(username=username)
-            if created:
-                temp_user.set_password(password)
-                temp_user.save()
-
             user = authenticate(request, username=username, password=password)
 
             if user:
                 login(request, user)
                 print("Successful Login")
                 # Redirect to the dashboard upon successful login
-                return redirect('dashboard')
+                return redirect('home')
             else:
                 # Handle invalid login credentials
-                print("Unsuccessful")
+                print("Unsuccessful 001")
+                print(form.errors)
                 form.add_error(None, 'Invalid login credentials')
+        else:
+            print("Unsuccessful 002")
+            print(form.errors)
     else:
         form = UserLoginForm()
     return render(request, 'login.html', {'form': form})
 
 
+@login_required
 def log_out(request):
     logout(request)
     return redirect('login')
-
-@login_required
-def dashboard(request):
-    return render(request, 'dashboard.html')
 
 
 @login_required
@@ -139,7 +138,7 @@ def update_account(request):
             request.user.password = form.cleaned_data.get('password', request.user.password)
             request.user.email = form.cleaned_data.get('email', request.user.email)
             request.user.full_name = form.cleaned_data.get('full_name')
-            request.user.country = form.cleaned_data.get('country', request.user.country)
+            request.user.country = form.cleaned_data.get('country')
             request.user.save()
 
             # If you're using the CustomUser model
@@ -196,6 +195,10 @@ def success_page(request):
 
 def pricing_page(request):
     return render(request, 'pricing.html')
+
+def alert_page(request):
+    return render(request, 'alert.html')
+
 
 
 

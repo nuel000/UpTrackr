@@ -1,4 +1,4 @@
-{% extends 'base_html_2.html' %}
+{% extends 'base.html' %}
 {% load static %}
 {% block title %}
     Login
@@ -8,10 +8,10 @@
 
     <div class="container">
         <div class="section">
-            <form method="post">
+            <form method="post" action="{% url 'login' %}">
                 {% csrf_token %}
-                <label for="email">Email Address:</label><br>
-                <input type="email" id="email" name="email"><br><br>
+                <label for="username"> Username :</label><br>
+                <input type="username" id="username" placeholder="Username" name="username"><br><br>
 
                 <label for="password">Password:</label><br>
                 <input type="password" id="password" name="password"><br><br>
@@ -50,7 +50,7 @@
         }
 
         /* Style for form inputs */
-        input[type="email"],
+        input[type="username"],
         input[type="password"] {
             width: 95%; /* Set input width to fill the container */
             padding: 10px; /* Add padding */
