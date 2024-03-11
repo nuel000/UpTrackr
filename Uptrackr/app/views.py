@@ -106,7 +106,35 @@ def log_out(request):
     return redirect('login')
 
 
-#@login_required
+# #@login_required
+# def update_account(request):
+#     if request.method == 'POST':
+#         form = UpdateAccountForm(request.POST)
+
+#         if form.is_valid():
+#             # Update user information
+#             request.user.username = form.cleaned_data.get('username', request.user.username)
+#             request.user.password = form.cleaned_data.get('password', request.user.password)
+#             request.user.email = form.cleaned_data.get('email', request.user.email)
+#             request.user.full_name = form.cleaned_data.get('full_name')
+#             request.user.country = form.cleaned_data.get('country')
+#             request.user.save()
+
+#             # If you're using the CustomUser model
+#             #user = request.user
+#             #user.full_name = full_name
+#             #user.save()
+
+#             # Logout the user after updating
+#             logout(request)
+
+#             messages.success(request, 'Your account has been updated successfully!')
+#             return redirect('login')  # Redirect to the same page after update
+#     else:
+#         form = UpdateAccountForm()
+
+#     return render(request, 'update_account.html', {'form': form})
+
 def update_account(request):
     if request.method == 'POST':
         form = UpdateAccountForm(request.POST)
@@ -114,26 +142,28 @@ def update_account(request):
         if form.is_valid():
             # Update user information
             request.user.username = form.cleaned_data.get('username', request.user.username)
-            request.user.password = form.cleaned_data.get('password', request.user.password)
             request.user.email = form.cleaned_data.get('email', request.user.email)
             request.user.full_name = form.cleaned_data.get('full_name')
             request.user.country = form.cleaned_data.get('country')
+
+            # Update password only if it's provided in the form
+            new_password = form.cleaned_data.get('password')
+            if new_password:
+                request.user.set_password(new_password)
+
             request.user.save()
 
-            # If you're using the CustomUser model
-            #user = request.user
-            #user.full_name = full_name
-            #user.save()
-
-            # Logout the user after updating
-            logout(request)
+            # Update the session with the new user details
+            update_session_auth_hash(request, request.user)
 
             messages.success(request, 'Your account has been updated successfully!')
-            return redirect('login')  # Redirect to the same page after update
+            logout(request)  # Logout the user after updating
+            return redirect('login')  # Redirect to the login page after update
     else:
         form = UpdateAccountForm()
 
     return render(request, 'update_account.html', {'form': form})
+
 
 
 #@login_required
@@ -178,7 +208,7 @@ def success_page(request):
 def pricing_page(request):
     return render(request, 'pricing.html')
 
-#@login_required
+@login_required
 def alert_page(request):
     print("View accessed.")
     return render(request, 'alert.html')
