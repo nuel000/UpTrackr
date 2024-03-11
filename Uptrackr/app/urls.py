@@ -7,6 +7,7 @@ from .views import input_form
 from .views import UserListAPIView
 from .views import base_2_view, home_page, base_view, reset_password, success_page, pricing_page, alert_page
 
+
 urlpatterns = [
     path('signup', sign_up, name='signup'),
     path('users', UserListAPIView.as_view(), name='user-list'),
