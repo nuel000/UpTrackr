@@ -13,11 +13,11 @@ from rest_framework import generics
 from .models import CustomUser
 from rest_framework.authtoken.models import Token
 from .serializers import LoginSerializer
-from .forms import UserInputForm, UserLoginForm, UserSignupForm, UpdateAccountForm, ResetAccountForm
+from .forms import UserInputForm, UserLoginForm, UserSignupForm
+from .forms import UpdateAccountForm, ResetAccountForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User  # Import the User model (testing...
-#... without creating an actual user)
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
@@ -45,18 +45,6 @@ def input_form(request):
         form = UserInputForm()
     return render(request, 'alert.html', {'form': form})
 
-# def sign_up(request):
-#     if request.method == 'POST':
-#         serializer = CustomUserSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             # Redirect to the login page after successful registration
-#             return redirect('login')  # Assuming the URL name for the login page is 'login'
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#     else:
-#         form = UserSignupForm()
-#     return render(request, 'signup.html', {'form': form})
-
 
 # Registration endpoint, this should register a user and save their details to the database
 def sign_up(request):
@@ -73,13 +61,7 @@ def sign_up(request):
             user = User.objects.create_user(username=username, email=email, password=password)
             user.full_name = full_name
             user.save()
-            #user = CustomUser.objects.create_superuser(username, email, full_name, password, country)
-            print('Redirected successfully')
             return redirect('login')
-        else:
-            print('Unsuccessful')
-            print(form.errors)
-
     else:
         form = UserSignupForm()
     return render(request, 'signup.html', {'form': form})
@@ -96,25 +78,22 @@ class UserListAPIView(generics.ListAPIView):
 def log_in(request):
     if request.method == 'POST':
         form = UserLoginForm(request.POST)
-        print('Inside first form')
         if form.is_valid():
-            print('Form is Valid')
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             user = authenticate(request, username=username, password=password)
-
             if user:
                 login(request, user)
                 print("Successful Login")
-                # Redirect to the dashboard upon successful login
+                # Redirect to homepage upon successful login
                 return redirect('home')
             else:
                 # Handle invalid login credentials
-                print("Unsuccessful 001")
+                print("Unsuccessful-101")
                 print(form.errors)
                 form.add_error(None, 'Invalid login credentials')
         else:
-            print("Unsuccessful 002")
+            print("Unsuccessful-102")
             print(form.errors)
     else:
         form = UserLoginForm()
@@ -142,12 +121,15 @@ def update_account(request):
             request.user.save()
 
             # If you're using the CustomUser model
-            user = request.user
-            user.full_name = full_name
-            user.save()
+            #user = request.user
+            #user.full_name = full_name
+            #user.save()
+
+            # Logout the user after updating
+            logout(request)
 
             messages.success(request, 'Your account has been updated successfully!')
-            return redirect('signup')  # Redirect to the same page after update
+            return redirect('login')  # Redirect to the same page after update
     else:
         form = UpdateAccountForm()
 
@@ -196,7 +178,9 @@ def success_page(request):
 def pricing_page(request):
     return render(request, 'pricing.html')
 
+@login_required
 def alert_page(request):
+    print("View accessed.")
     return render(request, 'alert.html')
 
 
