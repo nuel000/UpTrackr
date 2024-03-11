@@ -21,4 +21,5 @@ urlpatterns = [
     path('pricing', pricing_page, name='pricing'),
     path('logout', log_out, name='logout'),
     path('alert', alert_page, name='alert'),
+    path('update_account', update_account, name='update_account'),
 ]
