@@ -1,32 +1,33 @@
-{% extends 'base_html_2.html' %}
+{% extends 'base.html' %}
 {% load static %}
 {% block title %}
     Pricing Plans
 {% endblock %}
 
 {% block content %}
-<div class="container">
+
+<div class="container"  style="text-align: center;">
     <div class="section">
         <h2>Pricing Plans</h2>
 
         <div class="plan">
             <h3>Free Plan</h3>
             <p>This plan allows a 7 days free trial</p>
-            <a href="#" class="start-now-button">Start Now</a>
+            <a href="{% url 'alert' %}" class="start-now-button">Start Now</a>
         </div>
 
         <div class="plan">
             <h3>Monthly Plan</h3>
             <p>This plan allows you to receive Upwork job alerts for 30 days from subscription date</p>
             <p>$5/month</p>
-            <a href="#" class="subscribe-button">Subscribe Now</a>
+            <a href="{% url 'alert' %}" class="subscribe-button">Subscribe Now</a>
         </div>
 
         <div class="plan">
             <h3>Yearly Plan</h3>
             <p>This plan allows you to receive Upwork job alerts for 365 days from subscription date</p>
             <p>$48/year (20% discount)</p>
-            <a href="#" class="subscribe-button">Subscribe Now</a>
+            <a href="{% url 'alert' %}" class="subscribe-button">Subscribe Now</a>
         </div>
     </div>
 </div>

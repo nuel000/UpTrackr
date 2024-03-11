@@ -6,18 +6,22 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from rest_framework.permissions import AllowAny
 from .serializers import CustomUserSerializer
 from rest_framework import generics
 from .models import CustomUser
 from rest_framework.authtoken.models import Token
 from .serializers import LoginSerializer
-from .forms import UserInputForm, UserLoginForm, UserSignupForm
+from .forms import UserInputForm, UserLoginForm, UserSignupForm, UpdateAccountForm, ResetAccountForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User  
-# Import the User model (testing...# #...without creating an actual user)
+from django.contrib.auth.models import User  # Import the User model (testing...
+#... without creating an actual user)
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
+
 
 from concurrent.futures import ThreadPoolExecutor
 import subprocess
@@ -69,8 +73,12 @@ def sign_up(request):
             user = User.objects.create_user(username=username, email=email, password=password)
             user.full_name = full_name
             user.save()
-        print('Redirected successfully')
-        return redirect('login')
+            #user = CustomUser.objects.create_superuser(username, email, full_name, password, country)
+            print('Redirected successfully')
+            return redirect('login')
+        else:
+            print('Unsuccessful')
+            print(form.errors)
 
     else:
         form = UserSignupForm()
@@ -88,35 +96,84 @@ class UserListAPIView(generics.ListAPIView):
 def log_in(request):
     if request.method == 'POST':
         form = UserLoginForm(request.POST)
+        print('Inside first form')
         if form.is_valid():
+            print('Form is Valid')
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-
-            # For testing purposes, create a temporary user
-            # I'll remove before production
-            temp_user, created = User.objects.get_or_create(username=username)
-            if created:
-                temp_user.set_password(password)
-                temp_user.save()
-
             user = authenticate(request, username=username, password=password)
 
             if user:
                 login(request, user)
                 print("Successful Login")
                 # Redirect to the dashboard upon successful login
-                return redirect('dashboard')
+                return redirect('home')
             else:
                 # Handle invalid login credentials
-                print("Unsuccessful")
+                print("Unsuccessful 001")
+                print(form.errors)
                 form.add_error(None, 'Invalid login credentials')
+        else:
+            print("Unsuccessful 002")
+            print(form.errors)
     else:
         form = UserLoginForm()
     return render(request, 'login.html', {'form': form})
 
+
 @login_required
-def dashboard(request):
-    return render(request, 'dashboard.html')
+def log_out(request):
+    logout(request)
+    return redirect('login')
+
+
+@login_required
+def update_account(request):
+    if request.method == 'POST':
+        form = UpdateAccountForm(request.POST)
+
+        if form.is_valid():
+            # Update user information
+            request.user.username = form.cleaned_data.get('username', request.user.username)
+            request.user.password = form.cleaned_data.get('password', request.user.password)
+            request.user.email = form.cleaned_data.get('email', request.user.email)
+            request.user.full_name = form.cleaned_data.get('full_name')
+            request.user.country = form.cleaned_data.get('country')
+            request.user.save()
+
+            # If you're using the CustomUser model
+            user = request.user
+            user.full_name = full_name
+            user.save()
+
+            messages.success(request, 'Your account has been updated successfully!')
+            return redirect('signup')  # Redirect to the same page after update
+    else:
+        form = UpdateAccountForm()
+
+    return render(request, 'update_account.html', {'form': form})
+
+
+@login_required
+def reset_password(request):
+    if request.method == 'POST':
+        form = ResetAccountForm(request.POST)
+
+        if form.is_valid():
+            # Change user password
+            new_password = form.cleaned_data.get('new_password')
+            request.user.set_password(new_password)
+            request.user.save()
+
+            # Update the session to maintain login
+            update_session_auth_hash(request, request.user)
+
+            messages.success(request, 'Your password has been reset successfully!')
+            return redirect('reset_password')  # Redirect to the same page after reset
+    else:
+        form = ResetAccountForm()
+
+    return render(request, 'reset_password.html', {'form': form})
 
 
 #-----------------------------Testing ----------------------------------------------------------------------#
@@ -138,6 +195,10 @@ def success_page(request):
 
 def pricing_page(request):
     return render(request, 'pricing.html')
+
+def alert_page(request):
+    return render(request, 'alert.html')
+
 
 
 
