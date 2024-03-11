@@ -11,10 +11,10 @@
             <form method="post" action="{% url 'login' %}">
                 {% csrf_token %}
                 <label for="username"> Username :</label><br>
-                <input type="username" id="username" placeholder="Username" name="username"><br><br>
+                <input type="text" id="username" placeholder="Username" name="username"><br><br>
 
                 <label for="password">Password:</label><br>
-                <input type="password" id="password" name="password"><br><br>
+                <input type="password" id="password" placeholder="Password..." name="password"><br><br>
 
                 <a href="{% url 'reset_password' %}" class="forgot-password">Forgot Password?</a><br><br>
 
@@ -50,7 +50,7 @@
         }
 
         /* Style for form inputs */
-        input[type="username"],
+        input[type="text"],
         input[type="password"] {
             width: 95%; /* Set input width to fill the container */
             padding: 10px; /* Add padding */

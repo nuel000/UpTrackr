@@ -52,6 +52,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Uptrackr.urls'
+#LOGIN_URL = '/login'
 
 TEMPLATES = [
     {
