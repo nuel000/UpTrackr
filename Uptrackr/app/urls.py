@@ -5,7 +5,7 @@ from .views import log_out
 from .views import update_account
 from .views import input_form
 from .views import UserListAPIView
-from .views import base_2_view, home_page, base_view, reset_password, success_page, pricing_page, alert_page
+from .views import base_2_view, home_page, base_view, reset_password, success, pricing_page, alert_page
 
 
 urlpatterns = [
@@ -17,7 +17,7 @@ urlpatterns = [
     path('', home_page, name='home'),
     path('base2', base_2_view, name='base2'),
     path('reset_password', reset_password, name='reset_password'),
-    path('success', success_page, name='success'),
+    path('success', success, name='success'),
     path('pricing', pricing_page, name='pricing'),
     path('logout', log_out, name='logout'),
     path('alert', alert_page, name='alert'),

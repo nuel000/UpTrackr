@@ -61,7 +61,7 @@ def sign_up(request):
             user = User.objects.create_user(username=username, email=email, password=password)
             user.full_name = full_name
             user.save()
-            return redirect('login')
+            return render(request, 'signup_success.html')
     else:
         form = UserSignupForm()
     return render(request, 'signup.html', {'form': form})
@@ -83,16 +83,15 @@ def log_in(request):
             user = authenticate(request, username=username, password=password)
             if user:
                 login(request, user)
-                print("Successful Login")
+                #messages.success(request, 'Login successful')
                 # Redirect to homepage upon successful login
-                return redirect('home')
+                return redirect('success')
+                #return render(request, 'index.html')
             else:
                 # Handle invalid login credentials
-                print("Unsuccessful-101")
                 print(form.errors)
                 form.add_error(None, 'Invalid login credentials')
         else:
-            print("Unsuccessful-102")
             print(form.errors)
     else:
         form = UserLoginForm()
@@ -180,6 +179,9 @@ def pricing_page(request):
 def alert_page(request):
     print("View accessed.")
     return render(request, 'alert.html')
+
+def success(request):
+    return render(request, 'login_success.html')
 
 
 

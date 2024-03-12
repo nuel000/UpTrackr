@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Alert
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="section centered-content">
+        <img src="{% static 'img/success.png' %}" alt="Your Logo" class="large-centered-image">
+        <h1 class="centered-text">
+            Login Successful<br>
+            Redirecting to Home ...<br>
+        </h1>
+    </div>
+</div>
+<script>
+    // Redirect to the dashboard after 2 seconds
+    setTimeout(function() {
+        window.location.href = "{% url 'home' %}";
+    }, 2000);
+</script>
+
+<style>
+    .container {
+        margin: 0 auto; /* Center the container horizontally */
+        max-width: 600px; /* Limit the maximum width of the container */
+        padding: 0 20px; /* Add padding to the container */
+    }
+
+    .centered-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center; /* Center-align the text */
+        
+    }
+    .start-now-button{
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #1DCD8D;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+    .start-now-button:hover{
+        background-color: #17a17b;
+    }
+</style>
+{% endblock %}
