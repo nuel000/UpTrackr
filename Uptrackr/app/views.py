@@ -72,7 +72,6 @@ class UserListAPIView(generics.ListAPIView):
     serializer_class = CustomUserSerializer
 
 
-
 # This login endpoint is used to test if the dashboard will be... 
 # ... shown to users upon successful login 
 def log_in(request):
@@ -100,41 +99,12 @@ def log_in(request):
     return render(request, 'login.html', {'form': form})
 
 
-#@login_required
 def log_out(request):
     logout(request)
     return redirect('login')
 
 
-# #@login_required
-# def update_account(request):
-#     if request.method == 'POST':
-#         form = UpdateAccountForm(request.POST)
-
-#         if form.is_valid():
-#             # Update user information
-#             request.user.username = form.cleaned_data.get('username', request.user.username)
-#             request.user.password = form.cleaned_data.get('password', request.user.password)
-#             request.user.email = form.cleaned_data.get('email', request.user.email)
-#             request.user.full_name = form.cleaned_data.get('full_name')
-#             request.user.country = form.cleaned_data.get('country')
-#             request.user.save()
-
-#             # If you're using the CustomUser model
-#             #user = request.user
-#             #user.full_name = full_name
-#             #user.save()
-
-#             # Logout the user after updating
-#             logout(request)
-
-#             messages.success(request, 'Your account has been updated successfully!')
-#             return redirect('login')  # Redirect to the same page after update
-#     else:
-#         form = UpdateAccountForm()
-
-#     return render(request, 'update_account.html', {'form': form})
-
+@login_required
 def update_account(request):
     if request.method == 'POST':
         form = UpdateAccountForm(request.POST)
@@ -165,8 +135,6 @@ def update_account(request):
     return render(request, 'update_account.html', {'form': form})
 
 
-
-#@login_required
 def reset_password(request):
     if request.method == 'POST':
         form = ResetAccountForm(request.POST)
