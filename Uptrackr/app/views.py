@@ -62,6 +62,8 @@ def sign_up(request):
             user.full_name = full_name
             user.save()
             return render(request, 'signup_success.html')
+        else:
+            messages.error(request, 'One or more field(s) is empty!')
     else:
         form = UserSignupForm()
     return render(request, 'signup.html', {'form': form})
@@ -83,16 +85,14 @@ def log_in(request):
             user = authenticate(request, username=username, password=password)
             if user:
                 login(request, user)
-                #messages.success(request, 'Login successful')
                 # Redirect to homepage upon successful login
                 return redirect('success')
-                #return render(request, 'index.html')
             else:
                 # Handle invalid login credentials
-                print(form.errors)
-                form.add_error(None, 'Invalid login credentials')
+                messages.error(request, 'Invalid email or password!')
+                #form.add_error(None, 'Invalid login credentials')
         else:
-            print(form.errors)
+            messages.error(request, 'Form error!')
     else:
         form = UserLoginForm()
     return render(request, 'login.html', {'form': form})

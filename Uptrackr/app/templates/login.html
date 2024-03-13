@@ -8,6 +8,13 @@
 
     <div class="container">
         <div class="section">
+            {% if messages %}
+                <ul class="messages">
+                {% for message in messages %}
+                    <li class="error">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
             <form method="post" action="{% url 'login' %}">
                 {% csrf_token %}
                 <label for="username"> Username :</label><br>
@@ -92,6 +99,10 @@
         .signup-link {
             text-align: center; /* Center-align the link */
             margin-top: 20px; /* Add space above the link */
+        }
+
+        .error {
+            color: red;
         }
     </style>
 {% endblock %}

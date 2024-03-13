@@ -15,9 +15,10 @@
                 {% endfor %}
             </ul>
             {% endif %}
+            
             <form method="post" action="{% url 'signup' %}">
                 {% csrf_token %}
-                <div class="intro-text">
+                <div class="intro-section" style="text-align: center; font-size: 20px; color: #1DCD8D; font-weight: bold; background-color: white; padding: 20px 0; position: relative;">
                     <p>Welcome to Uptrackr – Where Opportunity Knocks, and You're Always First in Line! <br>
                         Say Farewell to FOMO (Fear of Missing Out) on Upwork Gigs.
                     </p>
@@ -106,9 +107,8 @@
             text-align: center; /* Center-align the link */
             margin-top: 20px; /* Add space above the link */
         }
-
-        .messages .success {
-            color: green;
+        .error {
+            color: red;
         }
     </style>
 {% endblock %}
