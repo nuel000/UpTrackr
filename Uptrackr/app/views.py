@@ -98,12 +98,13 @@ def log_in(request):
     return render(request, 'login.html', {'form': form})
 
 
+#@login_required
 def log_out(request):
     logout(request)
     return redirect('login')
 
 
-@login_required
+#@login_required
 def update_account(request):
     if request.method == 'POST':
         form = UpdateAccountForm(request.POST)
@@ -175,7 +176,7 @@ def success_page(request):
 def pricing_page(request):
     return render(request, 'pricing.html')
 
-@login_required
+#@login_required
 def alert_page(request):
     print("View accessed.")
     return render(request, 'alert.html')
