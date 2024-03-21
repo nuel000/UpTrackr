@@ -1,5 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django_countries.fields import CountryField
+from django.contrib.auth.backends import BaseBackend
+from django.contrib.auth.models import User
+
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, username, email, full_name, password=None, country=None):
@@ -11,20 +15,12 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-# Additionals 
-    #def create_superuser(self, username, email, full_name, password=None, country=None):
-       # user = self.create_user(username, email, full_name, password, country)
-      #  user.is_staff = True
-      #  user.is_superuser = True
-      #  user.save(using=self._db)
-       # return user
-
 class CustomUser(AbstractBaseUser):
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(max_length=254, unique=True)
     full_name = models.CharField(max_length=254)
-    country = models.CharField(max_length=100, null=True, blank=True)
-    is_active = models.BooleanField(default=True)
+    country = CountryField(blank_label="(select country)")
+    is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
 
@@ -35,3 +31,15 @@ class CustomUser(AbstractBaseUser):
 
     def __str__(self):
         return self.username
+    
+    
+
+
+
+
+        
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    activation_key = models.CharField(max_length=100)

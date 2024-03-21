@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+load_dotenv()
+
+#from app.models import CustomUser
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app',
+    'django_countries',
     #'rest_framework',
 ]
 
@@ -50,6 +55,14 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# AUTHENTICATION_BACKENDS = [
+#     'app.backends.CustomModelBackend',
+#     'django.contrib.auth.backends.ModelBackend',
+# ]
+
+
+#AUTH_USER_MODEL = 'app.CustomUser'
 
 ROOT_URLCONF = 'Uptrackr.urls'
 #LOGIN_URL = '/login'
@@ -127,3 +140,15 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Emailing settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_FROM = 'thedatadude000@gmail.com'
+EMAIL_HOST_USER = 'thedatadude000@gmail.com'
+EMAIL_HOST_PASSWORD = 'nhwq bnit yzgi eanz'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+PASSWORD_RESET_TIMEOUT = 1800

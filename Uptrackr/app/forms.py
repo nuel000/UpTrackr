@@ -1,4 +1,6 @@
 from django import forms
+from django_countries.widgets import CountrySelectWidget
+from django_countries.fields import CountryField
 
 
 class UserInputForm(forms.Form):
@@ -11,7 +13,7 @@ class UserSignupForm(forms.Form):
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
     email = forms.EmailField(label='Email')
     full_name = forms.CharField(label='Full Name', max_length=100, required=True)
-    country = forms.CharField(label='Country', max_length=50)
+    country = forms.CharField(widget=CountrySelectWidget(attrs={'class': 'form-control'}))
 
 class UserLoginForm(forms.Form):
     username = forms.CharField(label='Username', max_length=100, required=True)
