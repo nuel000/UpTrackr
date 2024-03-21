@@ -8,14 +8,18 @@
     <div class="intro-section" style="text-align: center; font-size: 50px; color: #1DCD8D; font-weight: bold; background-color: white; padding: 50px 0; position: relative;">
         Stay Ahead of the Curve and<br>
         Never Miss an Opportunity on<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Upwork!
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Upwork!<br>
+
+        <a href="{% url 'pricing' %}" class="btn" style="margin-top: 20px;">Get Started For Free</a>
     </div>
 
     <div class="about-section section" style="background-color: #1a2529; color: white; text-align: center; font-size: 24px; padding: 50px 0; position: relative;">
         Uptrackr is a remarkable tool that enables you to receive Upwork job notifications <br>
         directly from your job feed to your mail the moment clients post them. <br>
         By delivering instant alerts, this tool ensures you stay ahead of 99.9% of freelancers, <br>
-        allowing you to be among the first applicants to submit proposals.
+        allowing you to be among the first applicants to submit proposals.<br>
+
+        <a href="{% url 'pricing' %}" class="btn" style="margin-top: 20px;">Get Started For Free</a>
     </div>
 
     <div id="how-it-works-section" class="how-it-works-section section" style="background-color: #1a2529; color: white; text-align: center; font-size: 24px; padding: 50px 0; position: relative;">
@@ -27,6 +31,9 @@
                     <li style="margin-bottom: 10px;">Step 2: Copy your Upwork RSS URL</li>
                     <li>Step 3: Paste and Start receiving alerts instantly</li>
                 </ol>
+            </div>
+            <div style="width: 100%; text-align: center;">
+                <a href="{% url 'pricing' %}" class="btn" style="margin-top: 20px;">Get Started For Free</a>
             </div>
         </div>
         <br>
@@ -64,5 +71,21 @@
             color: #1DCD8D; /* Heading color */
             text-align: center; /* Center align headings */
         }
-    </style>
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #1DCD8D; /* Green color */
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 70px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+    .btn:hover {
+        background-color: #17a17b; /* Darker green color on hover */
+        }
+
+</style>
 {% endblock %}

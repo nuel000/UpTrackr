@@ -1,8 +1,5 @@
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.response import Response
 from django_countries import countries
-import secrets
-
 from django.utils.encoding import force_str
 from django.core.exceptions import MultipleObjectsReturned
 from django.core.exceptions import ObjectDoesNotExist
@@ -13,26 +10,15 @@ from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
-from django.core.mail import EmailMessage
 from .models import CustomUser
-from .tokens import account_activation_token
-from Uptrackr import settings
-from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.db import IntegrityError
 from main.reset_password import send_reset_password_mail
-
-
-
-# Inside your view function
-
-from django.db import models
 from django.contrib.auth.models import User
 from main.send_activation_mail import send_activation_mail
 from django.shortcuts import render, redirect
 from django.shortcuts import redirect
-from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -53,10 +39,6 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
-from .models import UserProfile
-
-
-from concurrent.futures import ThreadPoolExecutor
 import subprocess
 
 def run_main_script(email, rss_url):
@@ -98,16 +80,12 @@ def sign_up(request):
                 user.save()
             except IntegrityError:
                 error_message = "Username already exists. Please choose a different username."
-                return render(request, 'signup.html', {'message': error_message})
-            
-            
+                return render(request, 'signup.html', {'message': error_message})            
             # Generate token for email verification
-            token = default_token_generator.make_token(user)
-            
+            token = default_token_generator.make_token(user) 
             current_domain = HttpRequest.get_host(request)
             activation_link = f'{request.scheme}://{current_domain}{reverse("activate", kwargs={"uidb64": urlsafe_base64_encode(force_bytes(user.pk)), "token": token})}'
             send_activation_mail(email, activation_link)
-            
             # Redirect to a page indicating successful signup
             return render(request, 'signup_success.html')
     else:
@@ -126,15 +104,12 @@ def resend_activation_mail(request):
         except MultipleObjectsReturned:
             error_message = 'Multiple users found with this email address. Please contact support.'
             return render(request, 'resend_activation_mail.html', {'error_message': error_message})
-
         # Generate token for email verification
         token = default_token_generator.make_token(user)
         current_domain = request.get_host()
         activation_link = f'{request.scheme}://{current_domain}{reverse("activate", kwargs={"uidb64": urlsafe_base64_encode(force_bytes(user.pk)), "token": token})}'
-        
         # Send activation email
         send_activation_mail(email, activation_link)
-        
         # Display success message
         message = """Activation email has been sent successfully
                         """
@@ -142,8 +117,7 @@ def resend_activation_mail(request):
     else:
         return render(request, 'resend_activation_mail.html')
 
-    
-    
+       
 def activate_account(request, uidb64, token):
     form = UserLoginForm()
     try:
@@ -163,8 +137,6 @@ def activate_account(request, uidb64, token):
 class UserListAPIView(generics.ListAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
-
-
 
 # This login endpoint is used to test if the dashboard will be... 
 # ... shown to users upon successful login 
@@ -197,22 +169,18 @@ def log_in(request):
         elif user is None and user_check is None:
             comment = get_object_or_404(username=username)
             messages.error(request, 'User does not exist.')
-
-            
-            
+          
     else:
         form = UserLoginForm()
     return render(request, 'login.html', {'form': form})
 
-#def resend_activation_link()
 
-
-#@login_required
 def log_out(request):
     logout(request)
     return redirect('login')
 
 
+@login_required
 def update_account(request):
     if request.method == 'POST':
         form = UpdateAccountForm(request.POST)
@@ -242,14 +210,8 @@ def update_account(request):
 
     return render(request, 'update_account.html', {'form': form})
 
-
-
-#@login_required
-
-from django.utils.http import urlsafe_base64_encode
-from django.utils.encoding import force_bytes
-
 def password_reset_request(request):
+
     if request.method == 'POST':
         email = request.POST.get('email')
         try:
@@ -273,18 +235,9 @@ def password_reset_request(request):
     else:
         return render(request, 'reset_password.html')
 
-    
-import logging
 
-
-import logging
-
-import logging
-
-logger = logging.getLogger(__name__)
 
 def password_reset_confirm(request, uidb64, token):
-    logger.debug(f"Password reset confirmation request received with UID: {uidb64}, token: {token}")
     
     print("UIDb64:", uidb64)  # Add this line to log uidb64 value
     
@@ -292,10 +245,8 @@ def password_reset_confirm(request, uidb64, token):
         uid = urlsafe_base64_decode(uidb64).decode()
         user = User.objects.get(pk=uid)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist) as e:
-        logger.error(f"Error retrieving user: {e}")
         user = None
     except Exception as e:
-        logger.error(f"Error decoding UID: {e}")
         user = None
     
     if user is not None and default_token_generator.check_token(user, token):
@@ -311,14 +262,7 @@ def password_reset_confirm(request, uidb64, token):
     else:
         # Handle invalid or expired token
         messages.error(request, 'Invalid or expired password reset link.')
-        logger.error("Invalid or expired password reset link. Redirecting to password reset page.")
-        return redirect('password_reset')  # Redirect to the password reset page if token is invalid or expired
-
-
-
-
-
-    
+        return redirect('password_reset')    
     
 
 
