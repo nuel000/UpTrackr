@@ -47,7 +47,7 @@ def run_main_script(email, rss_url):
     except subprocess.CalledProcessError as e:
         print("Error running main.py:", e)
 
-
+@login_required
 def input_form(request):
     if request.method == 'POST':
         form = UserInputForm(request.POST)
@@ -236,7 +236,6 @@ def password_reset_request(request):
         return render(request, 'reset_password.html')
 
 
-
 def password_reset_confirm(request, uidb64, token):
     
     print("UIDb64:", uidb64)  # Add this line to log uidb64 value
@@ -305,10 +304,10 @@ def sigup_sucess_page(request):
 # def pass_reset(request):
 #     return render(request, 'password_reset_confirm.html')
 
-@login_required
-def alert_page(request):
-    print("View accessed.")
-    return render(request, 'alert.html')
+
+#def alert_page(request):
+    #print("View accessed.")
+    #return render(request, 'alert.html')
 
 
 

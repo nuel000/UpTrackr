@@ -5,7 +5,7 @@ from .views import log_out
 from .views import update_account
 from .views import input_form
 from .views import UserListAPIView
-from .views import base_2_view, home_page, base_view, reset_password, success_page, pricing_page, alert_page,sigup_sucess_page, activate_account,resend_activation_mail,password_reset_request,password_reset_confirm
+from .views import base_2_view, home_page, base_view, reset_password, success_page, pricing_page,sigup_sucess_page, activate_account,resend_activation_mail,password_reset_request,password_reset_confirm
 
 urlpatterns = [
     path('signup', sign_up, name='signup'),
@@ -19,7 +19,7 @@ urlpatterns = [
     path('success', success_page, name='success'),
     path('pricing', pricing_page, name='pricing'),
     path('logout', log_out, name='logout'),
-    path('alert', alert_page, name='alert'),
+    #path('alert', alert_page, name='alert'),
     path('update_account', update_account, name='update_account'),
     path('signup_successful', sigup_sucess_page, name='signup_successful'),
     path('activate/<uidb64>/<token>/', activate_account, name='activate'),
